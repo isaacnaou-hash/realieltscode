@@ -137,7 +137,7 @@ const Certificate = () => {
     // We'll use html2canvas for better rendering
     import('html2canvas').then(({ default: html2canvas }) => {
       html2canvas(certificateRef.current!, {
-        scale: 3,
+        scale: 4,
         backgroundColor: '#ffffff',
         logging: false,
         useCORS: true,
@@ -148,6 +148,46 @@ const Certificate = () => {
         link.download = `IELTS_Pro_Certificate_${certificateData.candidateName.replace(/\s+/g, '_')}.png`;
         link.click();
         toast.success("Certificate downloaded successfully!");
+      });
+    });
+  };
+
+  const handleDownloadPdf = () => {
+    if (!certificateData || !certificateRef.current) return;
+
+    import('html2canvas').then(({ default: html2canvas }) => {
+      html2canvas(certificateRef.current!, {
+        scale: 3,
+        backgroundColor: '#ffffff',
+        logging: false,
+        useCORS: true,
+        scrollY: -window.scrollY,
+      }).then((canvas) => {
+        const pdf = new jsPDF({
+          orientation: 'landscape',
+          unit: 'mm',
+          format: 'a4',
+        });
+
+        const imgData = canvas.toDataURL('image/png');
+        const pageWidth = pdf.internal.pageSize.getWidth();
+        const pageHeight = pdf.internal.pageSize.getHeight();
+        const margin = 8;
+        const usableWidth = pageWidth - margin * 2;
+        const usableHeight = pageHeight - margin * 2;
+
+        let imgWidth = usableWidth;
+        let imgHeight = (canvas.height * imgWidth) / canvas.width;
+        if (imgHeight > usableHeight) {
+          const ratio = usableHeight / imgHeight;
+          imgHeight = usableHeight;
+          imgWidth = imgWidth * ratio;
+        }
+        const x = (pageWidth - imgWidth) / 2;
+        const y = (pageHeight - imgHeight) / 2;
+        pdf.addImage(imgData, 'PNG', x, y, imgWidth, imgHeight);
+        pdf.save(`IELTS_Pro_Certificate_${certificateData.candidateName.replace(/\s+/g, '_')}.pdf`);
+        toast.success("PDF downloaded successfully!");
       });
     });
   };
@@ -233,7 +273,24 @@ const Certificate = () => {
                 }
               }}
             >
-              Download PNG
+              Download PNG (Hi‑Res)
+            </Button>
+            <Button
+              onClick={handleDownloadPdf}
+              startIcon={<Download className="w-4 h-4" />}
+              variant="contained"
+              sx={{
+                background: 'linear-gradient(135deg, #0ea5e9 0%, #6366f1 100%)',
+                color: 'white',
+                fontWeight: 600,
+                textTransform: 'none',
+                borderRadius: '8px',
+                '&:hover': {
+                  background: 'linear-gradient(135deg, #0284c7 0%, #4f46e5 100%)',
+                }
+              }}
+            >
+              Download PDF (A4)
             </Button>
           </div>
         </div>
