@@ -70,6 +70,9 @@ const RegistrationModal = ({ open, onClose }: RegistrationModalProps) => {
           status: "success",
           paystack_response: reference as object,
         });
+        await supabase.functions.invoke('verify-payment', {
+          body: { reference: paystackConfig.reference }
+        });
       }
     } catch (err) {
       console.error("payment log failed");

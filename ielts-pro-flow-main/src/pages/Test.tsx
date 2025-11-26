@@ -205,6 +205,27 @@ Yet, to demonize progress would be as naïve as to glorify it. The challenge of 
   const progress = ((currentQuestionIndex + 1) / sectionQuestions.length) * 100;
 
   useEffect(() => {
+    const checkPayment = async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!session) {
+        navigate("/auth");
+        return;
+      }
+      const { data: payments } = await supabase
+        .from("payment_transactions")
+        .select("id")
+        .eq("user_id", session.user.id)
+        .eq("status", "success")
+        .limit(1);
+      if (!payments || payments.length === 0) {
+        toast.error("Please complete payment first");
+        navigate("/dashboard", { state: { requirePayment: true } });
+      }
+    };
+    checkPayment();
+  }, [navigate]);
+
+  useEffect(() => {
     const timer = setInterval(() => {
       setTimeLeft(prev => {
         if (prev <= 1) {

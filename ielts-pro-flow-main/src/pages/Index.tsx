@@ -13,7 +13,8 @@ const Index = () => {
   const location = useLocation();
 
   useEffect(() => {
-    if (location.state && (location.state as any).openRegistration) {
+    const state = location.state as { openRegistration?: boolean } | null;
+    if (state?.openRegistration) {
       setShowRegistration(true);
     }
   }, [location.state]);

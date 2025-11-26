@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Button, Card, CardContent, Chip } from "@mui/material";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { LogOut, FileText, Clock, CheckCircle2, Play, RotateCcw } from "lucide-react";
 import { toast } from "sonner";
 import shapesBg from "@/assets/shapes-bg.png";
@@ -63,10 +63,12 @@ const scoreToIelts = (score: number): string => {
 
 const Dashboard = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const [showPaymentModal, setShowPaymentModal] = useState(false);
   const [testAttempts, setTestAttempts] = useState<TestAttempt[]>([]);
   const [candidateName, setCandidateName] = useState("");
   const [loading, setLoading] = useState(true);
+  const [hasPaid, setHasPaid] = useState(false);
 
   useEffect(() => {
     const checkAuthAndLoadData = async () => {
@@ -150,11 +152,26 @@ const Dashboard = () => {
         setTestAttempts(formattedAttempts);
       }
 
+      const { data: payments } = await supabase
+        .from("payment_transactions")
+        .select("id")
+        .eq("user_id", session.user.id)
+        .eq("status", "success")
+        .limit(1);
+      setHasPaid(Boolean(payments && payments.length > 0));
+
       setLoading(false);
     };
 
     checkAuthAndLoadData();
   }, [navigate]);
+
+  useEffect(() => {
+    const state = location.state as { requirePayment?: boolean } | null;
+    if (state?.requirePayment) {
+      setShowPaymentModal(true);
+    }
+  }, [location.state]);
 
   const hasCompletedTest = testAttempts.some(attempt => attempt.status === "completed");
 
@@ -165,7 +182,7 @@ const Dashboard = () => {
   };
 
   const handleStartTest = () => {
-    if (hasCompletedTest) {
+    if (!hasPaid) {
       setShowPaymentModal(true);
     } else {
       navigate("/test");
@@ -173,6 +190,7 @@ const Dashboard = () => {
   };
 
   const handlePaymentSuccess = () => {
+    setHasPaid(true);
     setShowPaymentModal(false);
     navigate("/test");
   };
