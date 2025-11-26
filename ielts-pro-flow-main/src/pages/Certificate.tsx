@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import { Button } from "@mui/material";
-import { Download, ArrowLeft, Share2, Check } from "lucide-react";
+import { Download, ArrowLeft, Share2, Check, Headphones, BookOpen, Pencil, MessageSquare } from "lucide-react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import jsPDF from "jspdf";
 import { toast } from "sonner";
@@ -142,9 +142,8 @@ const Certificate = () => {
         logging: false,
         useCORS: true,
       }).then((canvas) => {
-        const orientation = canvas.width > canvas.height ? 'landscape' : 'portrait';
         const pdf = new jsPDF({
-          orientation,
+          orientation: 'landscape',
           unit: 'mm',
           format: 'a4',
         });
@@ -262,56 +261,66 @@ const Certificate = () => {
         </div>
       </header>
 
-      <main className="max-w-6xl mx-auto px-6 sm:px-8 lg:px-10 py-8">
+      <main className="max-w-[1200px] mx-auto px-6 sm:px-8 lg:px-10 py-8">
         {/* Certificate Container */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
           ref={certificateRef}
-          className="bg-white shadow-2xl relative border-8 border-blue-800/20 rounded-2xl overflow-hidden"
+          className="bg-[#fdf9f3] shadow-2xl relative border-[10px] border-blue-900/30 rounded-2xl overflow-hidden"
           style={{ fontFamily: 'Georgia, Times New Roman, serif' }}
         >
-          <div className="absolute inset-0 opacity-5 pointer-events-none" style={{ backgroundImage: 'radial-gradient(#1e3a8a 1px, transparent 1px)', backgroundSize: '24px 24px' }} />
-          <div className="m-8 md:m-10 rounded-xl border-2 border-blue-800/30 bg-white/95">
-            <div className="h-2 bg-gradient-to-r from-blue-700 to-purple-700 rounded-t-xl" />
+          <div className="m-8 md:m-10 rounded-xl border-2 border-blue-900/40 bg-[#fffdf7]">
             <div className="px-10 pt-10 pb-6 text-center">
-              <div className="text-xl tracking-widest text-gray-600">IELTS Pro Certification</div>
-              <div className="mt-2 text-4xl font-bold text-gray-900">Certificate of English Proficiency</div>
-              <div className="mt-2 text-sm text-gray-500">Certificate ID: {certificateData.certificateId}</div>
+              <div className="text-4xl font-extrabold tracking-wide text-blue-900">Certificate of English Proficiency</div>
+              <div className="mt-2 text-sm font-semibold text-blue-900">Certificate ID: {certificateData.certificateId || 'CERT-70200390'}</div>
             </div>
 
             <div className="px-10 pb-10">
-              <div className="text-center text-gray-700 text-lg">This certifies that</div>
-              <div className="mt-2 text-center text-5xl font-extrabold text-gray-900">{certificateData.candidateName}</div>
-              <div className="mt-4 text-center text-gray-700">has successfully completed the IELTS Pro assessment</div>
-              <div className="mt-1 text-center text-gray-700">and achieved <span className="font-bold">{certificateData.cefr.overall} {getCefrLabel(certificateData.cefr.overall)}</span> overall</div>
-              <div className="mt-1 text-center text-gray-700">Awarded on <span className="font-semibold">{certificateData.testDate}</span></div>
+              <div className="text-center text-blue-900/90 text-lg">This is to certify that</div>
+              <div className="mt-2 text-center text-5xl font-extrabold text-[#6b1b1b] tracking-wide">{(certificateData.candidateName || 'Felix Kigen').toUpperCase()}</div>
+              <div className="mt-4 text-center text-blue-900/90">This is to certify that {(certificateData.candidateName || 'Felix Kigen').replace(/\b\w/g, c => c.toUpperCase())} has demonstrated a level of English language proficiency commensurate with the <span className="font-semibold">{getCefrLabel(certificateData.cefr.overall)} ({certificateData.cefr.overall})</span> level of the Common European Framework of Reference for Languages (CEFR).</div>
+              <div className="mt-2 text-center text-blue-900/90">Awarded this {formatAwardDate(certificateData.testDate)}</div>
 
-            <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-              <div className="flex flex-col items-center justify-center rounded-lg border border-blue-800/30 bg-slate-50 p-5 min-h-[140px]">
-                <div className="text-xs tracking-wide text-gray-600">Reading</div>
-                <div className="mt-1 text-4xl font-extrabold text-gray-900">{certificateData.scores.reading}</div>
-                <div className="mt-2 text-xs font-semibold text-gray-700">{certificateData.cefr.reading} {getCefrLabel(certificateData.cefr.reading)}</div>
-              </div>
-              <div className="flex flex-col items-center justify-center rounded-lg border border-blue-800/30 bg-slate-50 p-5 min-h-[140px]">
-                <div className="text-xs tracking-wide text-gray-600">Listening</div>
-                <div className="mt-1 text-4xl font-extrabold text-gray-900">{certificateData.scores.listening}</div>
-                <div className="mt-2 text-xs font-semibold text-gray-700">{certificateData.cefr.listening} {getCefrLabel(certificateData.cefr.listening)}</div>
-              </div>
-              <div className="flex flex-col items-center justify-center rounded-lg border border-blue-800/30 bg-slate-50 p-5 min-h-[140px]">
-                <div className="text-xs tracking-wide text-gray-600">Writing</div>
-                <div className="mt-1 text-4xl font-extrabold text-gray-900">{certificateData.scores.writing}</div>
-                <div className="mt-2 text-xs font-semibold text-gray-700">{certificateData.cefr.writing} {getCefrLabel(certificateData.cefr.writing)}</div>
-              </div>
-              <div className="flex flex-col items-center justify-center rounded-lg border border-blue-800/30 bg-slate-50 p-5 min-h-[140px]">
-                <div className="text-xs tracking-wide text-gray-600">Speaking</div>
-                <div className="mt-1 text-4xl font-extrabold text-gray-900">{certificateData.scores.speaking}</div>
-                <div className="mt-2 text-xs font-semibold text-gray-700">{certificateData.cefr.speaking} {getCefrLabel(certificateData.cefr.speaking)}</div>
+            <div className="mt-8">
+              <div className="px-2">
+                <div className="grid grid-cols-3 text-sm font-semibold text-blue-900">
+                  <div>Skill</div>
+                  <div>CEFR Level</div>
+                  <div>Score</div>
+                </div>
+                <div className="mt-3 space-y-3">
+                  <div className="grid grid-cols-3 items-center py-2 border-t border-blue-900/20">
+                    <div className="flex items-center gap-2 text-blue-900"><Headphones className="w-4 h-4" /> Listening</div>
+                    <div className="text-blue-900">{certificateData.cefr.listening} {getCefrLabel(certificateData.cefr.listening)}</div>
+                    <div className="text-[#6b1b1b] font-bold">{certificateData.scores.listening}</div>
+                  </div>
+                  <div className="grid grid-cols-3 items-center py-2 border-t border-blue-900/20">
+                    <div className="flex items-center gap-2 text-blue-900"><BookOpen className="w-4 h-4" /> Reading</div>
+                    <div className="text-blue-900">{certificateData.cefr.reading} {getCefrLabel(certificateData.cefr.reading)}</div>
+                    <div className="text-[#6b1b1b] font-bold">{certificateData.scores.reading}</div>
+                  </div>
+                  <div className="grid grid-cols-3 items-center py-2 border-t border-blue-900/20">
+                    <div className="flex items-center gap-2 text-blue-900"><Pencil className="w-4 h-4" /> Writing</div>
+                    <div className="text-blue-900">{certificateData.cefr.writing} {getCefrLabel(certificateData.cefr.writing)}</div>
+                    <div className="text-[#6b1b1b] font-bold">{certificateData.scores.writing}</div>
+                  </div>
+                  <div className="grid grid-cols-3 items-center py-2 border-t border-blue-900/20">
+                    <div className="flex items-center gap-2 text-blue-900"><MessageSquare className="w-4 h-4" /> Speaking</div>
+                    <div className="text-blue-900">{certificateData.cefr.speaking} {getCefrLabel(certificateData.cefr.speaking)}</div>
+                    <div className="text-[#6b1b1b] font-bold">{certificateData.scores.speaking}</div>
+                  </div>
+                  <div className="grid grid-cols-3 items-center py-2 border-t border-blue-900/30">
+                    <div className="text-blue-900 font-semibold">Overall Proficiency</div>
+                    <div className="text-blue-900 font-semibold">{certificateData.cefr.overall} {getCefrLabel(certificateData.cefr.overall)}</div>
+                    <div className="text-[#6b1b1b] font-bold">{certificateData.totalScore}</div>
+                  </div>
+                </div>
               </div>
             </div>
 
-            <div className="mt-8 grid grid-cols-3 gap-6 items-end">
+            <div className="mt-10 grid grid-cols-3 gap-6 items-end">
               <div className="text-center">
                 <div className="mx-auto w-48 h-12">
                   <svg viewBox="0 0 300 80" className="w-full h-full">
@@ -323,13 +332,12 @@ const Certificate = () => {
                 <div className="text-xs text-gray-500">Registrar</div>
               </div>
               <div className="text-center">
-                <div className="relative inline-flex items-center justify-center w-20 h-20 rounded-full bg-gradient-to-br from-blue-700 to-purple-700">
-                  <svg viewBox="0 0 100 100" className="w-16 h-16">
-                    <circle cx="50" cy="50" r="44" fill="none" stroke="rgba(255,255,255,0.6)" strokeWidth="3" />
-                    <circle cx="50" cy="50" r="34" fill="none" stroke="rgba(255,255,255,0.35)" strokeWidth="2" />
-                    <text x="50" y="46" textAnchor="middle" fontSize="20" fontWeight="700" fill="#fff">IELTS</text>
-                    <text x="50" y="64" textAnchor="middle" fontSize="12" fontWeight="600" fill="#e5e7eb">PRO</text>
-                    <polygon points="50,20 53,26 60,27 55,31 56,37 50,34 44,37 45,31 40,27 47,26" fill="#fff" opacity="0.85" />
+                <div className="relative inline-flex items-center justify-center w-24 h-24 rounded-full bg-gradient-to-br from-blue-900 to-[#6b1b1b]">
+                  <svg viewBox="0 0 120 120" className="w-20 h-20">
+                    <circle cx="60" cy="60" r="52" fill="none" stroke="rgba(255,255,255,0.75)" strokeWidth="4" />
+                    <circle cx="60" cy="60" r="42" fill="none" stroke="rgba(255,255,255,0.45)" strokeWidth="3" />
+                    <text x="60" y="56" textAnchor="middle" fontSize="22" fontWeight="800" fill="#fff">IELTS</text>
+                    <text x="60" y="78" textAnchor="middle" fontSize="14" fontWeight="700" fill="#f1f5f9">PRO</text>
                   </svg>
                 </div>
                 <div className="mt-2 text-sm font-semibold text-gray-700">Official Seal</div>
@@ -346,7 +354,8 @@ const Certificate = () => {
               </div>
             </div>
 
-            
+            <div className="mt-6 text-center text-sm text-blue-900">Verify at: {window.location.origin + '/verify'}</div>
+          
             </div>
           </div>
         </motion.div>
@@ -366,6 +375,21 @@ const getCefrLabel = (cefr: string): string => {
     'A0': 'Novice'
   };
   return labels[cefr] || '';
+};
+
+const formatAwardDate = (dateStr: string): string => {
+  const map: Record<string, string> = {
+    Jan: 'January', Feb: 'February', Mar: 'March', Apr: 'April', May: 'May', Jun: 'June',
+    Jul: 'July', Aug: 'August', Sep: 'September', Oct: 'October', Nov: 'November', Dec: 'December'
+  };
+  const parts = (dateStr || '').split(' ');
+  const day = parts[0] || new Date().getDate().toString();
+  const monthShort = parts[1] || new Date().toLocaleString('en-US', { month: 'short' });
+  const year = parts[2] || new Date().getFullYear().toString();
+  const d = parseInt(day, 10);
+  const suffix = (d % 10 === 1 && d !== 11) ? 'st' : (d % 10 === 2 && d !== 12) ? 'nd' : (d % 10 === 3 && d !== 13) ? 'rd' : 'th';
+  const monthFull = map[monthShort as keyof typeof map] || monthShort;
+  return `${d}${suffix} day of ${monthFull}, ${year}`;
 };
 
 const ScoreCircle = ({ score, label, cefr }: { score: number; label: string; cefr: string }) => {
