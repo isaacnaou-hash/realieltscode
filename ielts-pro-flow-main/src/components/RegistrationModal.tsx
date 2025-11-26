@@ -85,6 +85,7 @@ const RegistrationModal = ({ open, onClose }: RegistrationModalProps) => {
     const fullName = watch("fullName");
     const phoneNumber = watch("phoneNumber");
     const password = watch("password");
+    try { if (fullName) localStorage.setItem('candidateName', fullName); } catch {}
     if (email && password && fullName && phoneNumber) {
       try {
         setIsProcessing(true);

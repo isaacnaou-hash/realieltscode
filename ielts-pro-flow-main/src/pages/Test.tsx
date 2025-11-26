@@ -348,12 +348,44 @@ Yet, to demonize progress would be as naïve as to glorify it. The challenge of 
 
       if (gradingError) throw gradingError;
 
-      toast.dismiss(); // Dismiss loading toast
+      toast.dismiss();
       toast.success("Test submitted and graded successfully!");
-      navigate("/dashboard");
+      try { localStorage.setItem('hasPaid', 'false'); } catch {}
+
+      const scores = (gradingResult as any)?.scores;
+      const listeningScore = Math.round(scores?.listening ?? 0);
+      const readingScore = Math.round(scores?.reading ?? 0);
+      const writingScore = Math.round(scores?.writing ?? 0);
+      const speakingScore = Math.round(scores?.speaking ?? 0);
+      const totalScore = Math.round((listeningScore + readingScore + writingScore + speakingScore) / 4);
+
+      const candidateName = localStorage.getItem('candidateName') || 'Candidate';
+      const certId = `CERT-${Date.now().toString().slice(-8)}`;
+      const certificateData = {
+        candidateName,
+        testDate: new Date().toLocaleDateString('en-US', { day: '2-digit', month: 'short', year: 'numeric' }),
+        certificateId: certId,
+        totalScore,
+        cefr: {
+          overall: scoreToCefr(totalScore),
+          listening: scoreToCefr(listeningScore),
+          reading: scoreToCefr(readingScore),
+          writing: scoreToCefr(writingScore),
+          speaking: scoreToCefr(speakingScore),
+        },
+        scores: {
+          listening: listeningScore,
+          reading: readingScore,
+          writing: writingScore,
+          speaking: speakingScore,
+        },
+      };
+
+      const attemptId = (gradingResult as any)?.attempt_id || (gradingResult as any)?.attemptId || Date.now().toString();
+      navigate(`/certificate/${attemptId}`, { state: { certificateData } });
     } catch (error) {
       console.error("Error submitting test:", error);
-      toast.dismiss(); // Dismiss loading toast on error
+      toast.dismiss();
       toast.error("Failed to submit test. Please try again.");
       setIsSubmitting(false);
     }
@@ -695,6 +727,16 @@ Yet, to demonize progress would be as naïve as to glorify it. The challenge of 
       </main>
     </div>
   );
+};
+
+const scoreToCefr = (score: number): string => {
+  if (score >= 86) return 'C2';
+  if (score >= 71) return 'C1';
+  if (score >= 51) return 'B2';
+  if (score >= 41) return 'B1';
+  if (score >= 21) return 'A2';
+  if (score >= 11) return 'A1';
+  return 'A0';
 };
 
 export default Test;

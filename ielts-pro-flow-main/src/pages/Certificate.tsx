@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import { Button } from "@mui/material";
 import { Download, ArrowLeft, Share2, Check } from "lucide-react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import jsPDF from "jspdf";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
@@ -50,60 +50,56 @@ const getScoreRange = (score: number): string => {
 const Certificate = () => {
   const { id } = useParams();
   const navigate = useNavigate();
+  const location = useLocation();
   const certificateRef = useRef<HTMLDivElement>(null);
   const [certificateData, setCertificateData] = useState<CertificateData | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    const state = location.state as { certificateData?: CertificateData } | null;
+    const fromState = state?.certificateData;
+    if (fromState) {
+      setCertificateData(fromState);
+      setLoading(false);
+      return;
+    }
+
     const fetchCertificateData = async () => {
       try {
         const { data: { session } } = await supabase.auth.getSession();
-        
         if (!session) {
-          navigate("/auth");
+          setLoading(false);
           return;
         }
-
-        // Fetch test attempt
         const { data: attempt, error: attemptError } = await supabase
           .from("test_attempts")
           .select("*")
           .eq("id", id)
           .eq("user_id", session.user.id)
           .single();
-
         if (attemptError) throw attemptError;
-
-        // Fetch user profile
         const { data: profile } = await supabase
           .from("profiles")
           .select("full_name")
           .eq("id", session.user.id)
           .single();
-
-        // Fetch certificate ID
         const { data: cert } = await supabase
           .from("certificates")
           .select("certificate_id")
           .eq("test_attempt_id", id)
           .single();
-
-        // Use actual scores from database (all now out of 100)
         const listeningScore = Math.round(attempt.listening_score ?? 0);
         const readingScore = Math.round(attempt.reading_score ?? 0);
         const writingScore = Math.round(attempt.writing_score ?? 0);
         const speakingScore = Math.round(attempt.speaking_score ?? 0);
         const totalScore = Math.round((listeningScore + readingScore + writingScore + speakingScore) / 4);
-
-        // Calculate CEFR levels dynamically from scores
         const listeningCefr = scoreToCefr(listeningScore);
         const readingCefr = scoreToCefr(readingScore);
         const writingCefr = scoreToCefr(writingScore);
         const speakingCefr = scoreToCefr(speakingScore);
         const overallCefr = scoreToCefr(totalScore);
-
         setCertificateData({
-          candidateName: profile?.full_name || "Candidate",
+          candidateName: profile?.full_name || localStorage.getItem('candidateName') || "Candidate",
           testDate: new Date(attempt.test_date).toLocaleDateString('en-US', { 
             day: '2-digit',
             month: 'short',
@@ -127,15 +123,13 @@ const Certificate = () => {
         });
       } catch (error) {
         console.error("Error fetching certificate:", error);
-        toast.error("Failed to load certificate");
-        navigate("/dashboard");
       } finally {
         setLoading(false);
       }
     };
 
     fetchCertificateData();
-  }, [id, navigate]);
+  }, [id, navigate, location.state]);
 
   const handleDownload = () => {
     if (!certificateData || !certificateRef.current) return;
