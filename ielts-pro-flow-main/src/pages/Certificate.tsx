@@ -252,71 +252,73 @@ const Certificate = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
           ref={certificateRef}
-          className="bg-white shadow-2xl relative border-4 border-gray-200"
+          className="bg-white shadow-2xl relative border-8 border-blue-800/20 rounded-2xl overflow-hidden"
           style={{ fontFamily: 'Georgia, Times New Roman, serif' }}
         >
-          <div className="absolute inset-0 opacity-5" style={{ backgroundImage: 'radial-gradient(#1e3a8a 1px, transparent 1px)', backgroundSize: '24px 24px' }} />
-          {/* Certificate Header */}
-          <div className="px-12 pt-12 pb-6 text-center">
-            <div className="text-2xl tracking-widest text-gray-500">IELTS PRO</div>
-            <div className="mt-2 text-4xl font-bold text-gray-900">Certificate of English Proficiency</div>
-            <div className="mt-2 text-sm text-gray-500">Certificate ID: {certificateData.certificateId}</div>
-          </div>
-
-          <div className="px-12 py-8">
-            <div className="text-center text-gray-700 text-lg">This certifies that</div>
-            <div className="mt-2 text-center text-5xl font-extrabold text-gray-900">{certificateData.candidateName}</div>
-            <div className="mt-4 text-center text-gray-700">has successfully completed the IELTS Pro assessment</div>
-            <div className="mt-1 text-center text-gray-700">and achieved <span className="font-bold">{certificateData.cefr.overall} {getCefrLabel(certificateData.cefr.overall)}</span> overall</div>
-            <div className="mt-1 text-center text-gray-700">Awarded on <span className="font-semibold">{certificateData.testDate}</span></div>
-
-            <div className="mt-8 grid grid-cols-4 gap-6">
-              <div className="text-center border p-4">
-                <div className="text-xs text-gray-500">Reading</div>
-                <div className="text-3xl font-bold text-gray-900">{certificateData.scores.reading}</div>
-                <div className="text-sm text-gray-600">{certificateData.cefr.reading}</div>
-              </div>
-              <div className="text-center border p-4">
-                <div className="text-xs text-gray-500">Listening</div>
-                <div className="text-3xl font-bold text-gray-900">{certificateData.scores.listening}</div>
-                <div className="text-sm text-gray-600">{certificateData.cefr.listening}</div>
-              </div>
-              <div className="text-center border p-4">
-                <div className="text-xs text-gray-500">Writing</div>
-                <div className="text-3xl font-bold text-gray-900">{certificateData.scores.writing}</div>
-                <div className="text-sm text-gray-600">{certificateData.cefr.writing}</div>
-              </div>
-              <div className="text-center border p-4">
-                <div className="text-xs text-gray-500">Speaking</div>
-                <div className="text-3xl font-bold text-gray-900">{certificateData.scores.speaking}</div>
-                <div className="text-sm text-gray-600">{certificateData.cefr.speaking}</div>
-              </div>
+          <div className="absolute inset-0 opacity-5 pointer-events-none" style={{ backgroundImage: 'radial-gradient(#1e3a8a 1px, transparent 1px)', backgroundSize: '24px 24px' }} />
+          <div className="m-8 md:m-10 rounded-xl border-2 border-blue-800/30 bg-white/95">
+            <div className="h-2 bg-gradient-to-r from-blue-700 to-purple-700 rounded-t-xl" />
+            <div className="px-10 pt-10 pb-6 text-center">
+              <div className="text-2xl tracking-widest text-gray-500">IELTS PRO</div>
+              <div className="mt-2 text-4xl font-bold text-gray-900">Certificate of English Proficiency</div>
+              <div className="mt-2 text-sm text-gray-500">Certificate ID: {certificateData.certificateId}</div>
             </div>
 
-            <div className="mt-8 flex items-center justify-between">
-              <div className="text-center">
-                <div className="h-12 border-b border-gray-400" />
-                <div className="mt-2 text-xs text-gray-500">Authorized Signature</div>
-              </div>
-              <div className="text-center">
-                <div className="inline-flex items-center justify-center w-24 h-24 rounded-full bg-gradient-to-br from-blue-700 to-purple-700 text-white font-bold">SEAL</div>
-                <div className="mt-2 text-xs text-gray-500">IELTS Pro</div>
-              </div>
-              <div className="text-center">
-                <div className="h-12 border-b border-gray-400" />
-                <div className="mt-2 text-xs text-gray-500">Verification Officer</div>
-              </div>
-            </div>
+            <div className="px-10 pb-10">
+              <div className="text-center text-gray-700 text-lg">This certifies that</div>
+              <div className="mt-2 text-center text-5xl font-extrabold text-gray-900">{certificateData.candidateName}</div>
+              <div className="mt-4 text-center text-gray-700">has successfully completed the IELTS Pro assessment</div>
+              <div className="mt-1 text-center text-gray-700">and achieved <span className="font-bold">{certificateData.cefr.overall} {getCefrLabel(certificateData.cefr.overall)}</span> overall</div>
+              <div className="mt-1 text-center text-gray-700">Awarded on <span className="font-semibold">{certificateData.testDate}</span></div>
 
-            <div className="mt-6 grid grid-cols-3 gap-6 items-center">
-              <div />
-              <div className="text-center text-sm text-gray-500">{window.location.origin}/certificate/{id}</div>
-              <div className="flex justify-end">
-                <img
-                  src={`https://api.qrserver.com/v1/create-qr-code/?size=120x120&data=${encodeURIComponent(window.location.origin + '/certificate/' + id)}`}
-                  alt="QR"
-                  className="w-20 h-20"
-                />
+              <div className="mt-8 grid grid-cols-4 gap-6">
+                <div className="text-center border p-4">
+                  <div className="text-xs text-gray-500">Reading</div>
+                  <div className="text-3xl font-bold text-gray-900">{certificateData.scores.reading}</div>
+                  <div className="text-sm text-gray-600">{certificateData.cefr.reading}</div>
+                </div>
+                <div className="text-center border p-4">
+                  <div className="text-xs text-gray-500">Listening</div>
+                  <div className="text-3xl font-bold text-gray-900">{certificateData.scores.listening}</div>
+                  <div className="text-sm text-gray-600">{certificateData.cefr.listening}</div>
+                </div>
+                <div className="text-center border p-4">
+                  <div className="text-xs text-gray-500">Writing</div>
+                  <div className="text-3xl font-bold text-gray-900">{certificateData.scores.writing}</div>
+                  <div className="text-sm text-gray-600">{certificateData.cefr.writing}</div>
+                </div>
+                <div className="text-center border p-4">
+                  <div className="text-xs text-gray-500">Speaking</div>
+                  <div className="text-3xl font-bold text-gray-900">{certificateData.scores.speaking}</div>
+                  <div className="text-sm text-gray-600">{certificateData.cefr.speaking}</div>
+                </div>
+              </div>
+
+              <div className="mt-8 flex items-center justify-between">
+                <div className="text-center">
+                  <div className="h-12 border-b border-gray-400" />
+                  <div className="mt-2 text-xs text-gray-500">Authorized Signature</div>
+                </div>
+                <div className="text-center">
+                  <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-gradient-to-br from-blue-700 to-purple-700 text-white font-bold">SEAL</div>
+                  <div className="mt-2 text-xs text-gray-500">IELTS Pro</div>
+                </div>
+                <div className="text-center">
+                  <div className="h-12 border-b border-gray-400" />
+                  <div className="mt-2 text-xs text-gray-500">Verification Officer</div>
+                </div>
+              </div>
+
+              <div className="mt-6 grid grid-cols-3 gap-6 items-center">
+                <div />
+                <div className="text-center text-sm text-gray-500">{window.location.origin}/certificate/{id}</div>
+                <div className="flex justify-end">
+                  <img
+                    src={`https://api.qrserver.com/v1/create-qr-code/?size=120x120&data=${encodeURIComponent(window.location.origin + '/certificate/' + id)}`}
+                    alt="QR"
+                    className="w-20 h-20"
+                  />
+                </div>
               </div>
             </div>
           </div>
