@@ -270,30 +270,30 @@ const Certificate = () => {
                     <div>Score</div>
                   </div>
                   <div className="mt-3 space-y-3">
-                    <div className="grid grid-cols-3 items-center py-3 px-3 rounded-md border border-gray-200 bg-gray-50">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 items-center gap-3 py-3 px-3 rounded-md border border-gray-200 bg-gray-50">
                       <div className="flex items-center gap-3 text-gray-900"><Headphones className="w-5 h-5 md:w-6 md:h-6" /> <span className="text-base md:text-lg font-semibold">Listening</span></div>
-                      <div className="text-sm md:text-base text-gray-800">{certificateData.cefr.listening} {getCefrLabel(certificateData.cefr.listening)}</div>
-                      <div className="text-xl md:text-2xl font-extrabold text-gray-900">{certificateData.scores.listening}</div>
+                      <div className="text-sm md:text-base text-gray-800 whitespace-nowrap">{certificateData.cefr.listening} · {getCefrLabel(certificateData.cefr.listening)}</div>
+                      <div className="text-2xl md:text-3xl font-extrabold text-gray-900">{certificateData.scores.listening}</div>
                     </div>
-                    <div className="grid grid-cols-3 items-center py-3 px-3 rounded-md border border-gray-200 bg-gray-50">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 items-center gap-3 py-3 px-3 rounded-md border border-gray-200 bg-gray-50">
                       <div className="flex items-center gap-3 text-gray-900"><BookOpen className="w-5 h-5 md:w-6 md:h-6" /> <span className="text-base md:text-lg font-semibold">Reading</span></div>
-                      <div className="text-sm md:text-base text-gray-800">{certificateData.cefr.reading} {getCefrLabel(certificateData.cefr.reading)}</div>
-                      <div className="text-xl md:text-2xl font-extrabold text-gray-900">{certificateData.scores.reading}</div>
+                      <div className="text-sm md:text-base text-gray-800 whitespace-nowrap">{certificateData.cefr.reading} · {getCefrLabel(certificateData.cefr.reading)}</div>
+                      <div className="text-2xl md:text-3xl font-extrabold text-gray-900">{certificateData.scores.reading}</div>
                     </div>
-                    <div className="grid grid-cols-3 items-center py-3 px-3 rounded-md border border-gray-200 bg-gray-50">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 items-center gap-3 py-3 px-3 rounded-md border border-gray-200 bg-gray-50">
                       <div className="flex items-center gap-3 text-gray-900"><Pencil className="w-5 h-5 md:w-6 md:h-6" /> <span className="text-base md:text-lg font-semibold">Writing</span></div>
-                      <div className="text-sm md:text-base text-gray-800">{certificateData.cefr.writing} {getCefrLabel(certificateData.cefr.writing)}</div>
-                      <div className="text-xl md:text-2xl font-extrabold text-gray-900">{certificateData.scores.writing}</div>
+                      <div className="text-sm md:text-base text-gray-800 whitespace-nowrap">{certificateData.cefr.writing} · {getCefrLabel(certificateData.cefr.writing)}</div>
+                      <div className="text-2xl md:text-3xl font-extrabold text-gray-900">{certificateData.scores.writing}</div>
                     </div>
-                    <div className="grid grid-cols-3 items-center py-3 px-3 rounded-md border border-gray-200 bg-gray-50">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 items-center gap-3 py-3 px-3 rounded-md border border-gray-200 bg-gray-50">
                       <div className="flex items-center gap-3 text-gray-900"><MessageSquare className="w-5 h-5 md:w-6 md:h-6" /> <span className="text-base md:text-lg font-semibold">Speaking</span></div>
-                      <div className="text-sm md:text-base text-gray-800">{certificateData.cefr.speaking} {getCefrLabel(certificateData.cefr.speaking)}</div>
-                      <div className="text-xl md:text-2xl font-extrabold text-gray-900">{certificateData.scores.speaking}</div>
+                      <div className="text-sm md:text-base text-gray-800 whitespace-nowrap">{certificateData.cefr.speaking} · {getCefrLabel(certificateData.cefr.speaking)}</div>
+                      <div className="text-2xl md:text-3xl font-extrabold text-gray-900">{certificateData.scores.speaking}</div>
                     </div>
-                    <div className="grid grid-cols-3 items-center py-3 px-3 rounded-md border border-gray-300 bg-white">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 items-center gap-3 py-3 px-3 rounded-md border border-gray-300 bg-white">
                       <div className="text-gray-900 font-semibold">Overall Proficiency</div>
-                      <div className="text-gray-900 font-semibold">{certificateData.cefr.overall} {getCefrLabel(certificateData.cefr.overall)}</div>
-                      <div className="text-xl md:text-2xl font-extrabold text-gray-900">{certificateData.totalScore}</div>
+                      <div className="text-gray-900 font-semibold whitespace-nowrap">{certificateData.cefr.overall} · {getCefrLabel(certificateData.cefr.overall)}</div>
+                      <div className="text-2xl md:text-3xl font-extrabold text-gray-900">{certificateData.totalScore}</div>
                     </div>
                   </div>
                 </div>
