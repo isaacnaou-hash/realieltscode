@@ -107,14 +107,14 @@ const RegistrationModal = ({ open, onClose }: RegistrationModalProps) => {
         return;
       }
 
-      toast.success("Registration successful! Redirecting to dashboard...");
+      toast.success("Registration successful! Redirecting to your test...");
       reset();
       setPaymentSuccess(false);
       onClose();
       
-      // Redirect to dashboard after successful registration
+      // Redirect to test after successful registration
       setTimeout(() => {
-        navigate("/dashboard");
+        navigate("/test");
       }, 1000);
     } catch (error) {
       toast.error("Registration failed. Please try again.");
