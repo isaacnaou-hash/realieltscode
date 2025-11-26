@@ -259,7 +259,7 @@ const Certificate = () => {
           <div className="m-8 md:m-10 rounded-xl border-2 border-blue-800/30 bg-white/95">
             <div className="h-2 bg-gradient-to-r from-blue-700 to-purple-700 rounded-t-xl" />
             <div className="px-10 pt-10 pb-6 text-center">
-              <div className="text-2xl tracking-widest text-gray-500">IELTS PRO</div>
+              <div className="text-xl tracking-widest text-gray-600">International English Certification Board</div>
               <div className="mt-2 text-4xl font-bold text-gray-900">Certificate of English Proficiency</div>
               <div className="mt-2 text-sm text-gray-500">Certificate ID: {certificateData.certificateId}</div>
             </div>
@@ -271,55 +271,57 @@ const Certificate = () => {
               <div className="mt-1 text-center text-gray-700">and achieved <span className="font-bold">{certificateData.cefr.overall} {getCefrLabel(certificateData.cefr.overall)}</span> overall</div>
               <div className="mt-1 text-center text-gray-700">Awarded on <span className="font-semibold">{certificateData.testDate}</span></div>
 
-              <div className="mt-8 grid grid-cols-4 gap-6">
-                <div className="text-center border p-4">
-                  <div className="text-xs text-gray-500">Reading</div>
-                  <div className="text-3xl font-bold text-gray-900">{certificateData.scores.reading}</div>
-                  <div className="text-sm text-gray-600">{certificateData.cefr.reading}</div>
-                </div>
-                <div className="text-center border p-4">
-                  <div className="text-xs text-gray-500">Listening</div>
-                  <div className="text-3xl font-bold text-gray-900">{certificateData.scores.listening}</div>
-                  <div className="text-sm text-gray-600">{certificateData.cefr.listening}</div>
-                </div>
-                <div className="text-center border p-4">
-                  <div className="text-xs text-gray-500">Writing</div>
-                  <div className="text-3xl font-bold text-gray-900">{certificateData.scores.writing}</div>
-                  <div className="text-sm text-gray-600">{certificateData.cefr.writing}</div>
-                </div>
-                <div className="text-center border p-4">
-                  <div className="text-xs text-gray-500">Speaking</div>
-                  <div className="text-3xl font-bold text-gray-900">{certificateData.scores.speaking}</div>
-                  <div className="text-sm text-gray-600">{certificateData.cefr.speaking}</div>
-                </div>
+            <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+              <div className="flex flex-col items-center justify-center rounded-lg border border-blue-800/30 bg-slate-50 p-5 min-h-[140px]">
+                <div className="text-xs tracking-wide text-gray-600">Reading</div>
+                <div className="mt-1 text-4xl font-extrabold text-gray-900">{certificateData.scores.reading}</div>
+                <div className="mt-2 text-xs font-semibold text-gray-700">{certificateData.cefr.reading} {getCefrLabel(certificateData.cefr.reading)}</div>
               </div>
+              <div className="flex flex-col items-center justify-center rounded-lg border border-blue-800/30 bg-slate-50 p-5 min-h-[140px]">
+                <div className="text-xs tracking-wide text-gray-600">Listening</div>
+                <div className="mt-1 text-4xl font-extrabold text-gray-900">{certificateData.scores.listening}</div>
+                <div className="mt-2 text-xs font-semibold text-gray-700">{certificateData.cefr.listening} {getCefrLabel(certificateData.cefr.listening)}</div>
+              </div>
+              <div className="flex flex-col items-center justify-center rounded-lg border border-blue-800/30 bg-slate-50 p-5 min-h-[140px]">
+                <div className="text-xs tracking-wide text-gray-600">Writing</div>
+                <div className="mt-1 text-4xl font-extrabold text-gray-900">{certificateData.scores.writing}</div>
+                <div className="mt-2 text-xs font-semibold text-gray-700">{certificateData.cefr.writing} {getCefrLabel(certificateData.cefr.writing)}</div>
+              </div>
+              <div className="flex flex-col items-center justify-center rounded-lg border border-blue-800/30 bg-slate-50 p-5 min-h-[140px]">
+                <div className="text-xs tracking-wide text-gray-600">Speaking</div>
+                <div className="mt-1 text-4xl font-extrabold text-gray-900">{certificateData.scores.speaking}</div>
+                <div className="mt-2 text-xs font-semibold text-gray-700">{certificateData.cefr.speaking} {getCefrLabel(certificateData.cefr.speaking)}</div>
+              </div>
+            </div>
 
-              <div className="mt-8 flex items-center justify-between">
-                <div className="text-center">
-                  <div className="h-12 border-b border-gray-400" />
-                  <div className="mt-2 text-xs text-gray-500">Authorized Signature</div>
+            <div className="mt-8 grid grid-cols-3 gap-6 items-end">
+              <div className="text-center">
+                <div className="mx-auto w-48 h-12">
+                  <svg viewBox="0 0 300 80" className="w-full h-full">
+                    <path d="M10 50 C 60 20, 120 80, 170 40 C 190 20, 220 60, 290 30" fill="none" stroke="#1f2937" strokeWidth="2" strokeLinecap="round" />
+                    <path d="M30 60 C 80 40, 140 90, 210 50" fill="none" stroke="#1f2937" strokeWidth="1.5" strokeLinecap="round" />
+                  </svg>
                 </div>
-                <div className="text-center">
-                  <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-gradient-to-br from-blue-700 to-purple-700 text-white font-bold">SEAL</div>
-                  <div className="mt-2 text-xs text-gray-500">IELTS Pro</div>
-                </div>
-                <div className="text-center">
-                  <div className="h-12 border-b border-gray-400" />
-                  <div className="mt-2 text-xs text-gray-500">Verification Officer</div>
-                </div>
+                <div className="mt-1 text-sm font-semibold text-gray-700">Dr. Amelia Hart</div>
+                <div className="text-xs text-gray-500">Registrar</div>
               </div>
+              <div className="text-center">
+                <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-gradient-to-br from-blue-700 to-purple-700 text-white font-bold">IECB</div>
+                <div className="mt-2 text-sm font-semibold text-gray-700">Official Seal</div>
+              </div>
+              <div className="text-center">
+                <div className="mx-auto w-48 h-12">
+                  <svg viewBox="0 0 300 80" className="w-full h-full">
+                    <path d="M15 40 C 70 70, 130 10, 180 50 C 200 65, 235 35, 295 55" fill="none" stroke="#1f2937" strokeWidth="2" strokeLinecap="round" />
+                    <path d="M35 55 C 90 85, 150 25, 220 60" fill="none" stroke="#1f2937" strokeWidth="1.5" strokeLinecap="round" />
+                  </svg>
+                </div>
+                <div className="mt-1 text-sm font-semibold text-gray-700">Mr. Daniel Brooks</div>
+                <div className="text-xs text-gray-500">Verification Officer</div>
+              </div>
+            </div>
 
-              <div className="mt-6 grid grid-cols-3 gap-6 items-center">
-                <div />
-                <div className="text-center text-sm text-gray-500">{window.location.origin}/certificate/{id}</div>
-                <div className="flex justify-end">
-                  <img
-                    src={`https://api.qrserver.com/v1/create-qr-code/?size=120x120&data=${encodeURIComponent(window.location.origin + '/certificate/' + id)}`}
-                    alt="QR"
-                    className="w-20 h-20"
-                  />
-                </div>
-              </div>
+            
             </div>
           </div>
         </motion.div>
