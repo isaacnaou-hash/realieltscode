@@ -156,7 +156,7 @@ const Dashboard = () => {
         .from("payment_transactions")
         .select("id")
         .eq("user_id", session.user.id)
-        .eq("status", "success")
+        .in("status", ["success", "verified"]) 
         .limit(1);
       setHasPaid(Boolean(payments && payments.length > 0));
 

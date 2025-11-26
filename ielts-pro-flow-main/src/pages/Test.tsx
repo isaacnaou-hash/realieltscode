@@ -215,7 +215,7 @@ Yet, to demonize progress would be as naïve as to glorify it. The challenge of 
         .from("payment_transactions")
         .select("id")
         .eq("user_id", session.user.id)
-        .eq("status", "success")
+        .in("status", ["success", "verified"]) 
         .limit(1);
       if (!payments || payments.length === 0) {
         toast.error("Please complete payment first");

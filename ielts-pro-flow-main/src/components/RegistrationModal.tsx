@@ -78,7 +78,37 @@ const RegistrationModal = ({ open, onClose }: RegistrationModalProps) => {
       console.error("payment log failed");
     }
     setPaymentSuccess(true);
-    toast.success("Payment successful! You can now register.");
+    const fullName = watch("fullName");
+    const phoneNumber = watch("phoneNumber");
+    const password = watch("password");
+    if (email && password && fullName && phoneNumber) {
+      try {
+        setIsProcessing(true);
+        const { data: signUpRes, error: signUpErr } = await supabase.auth.signUp({
+          email,
+          password,
+          options: {
+            data: { fullName, phoneNumber },
+          },
+        });
+        if (signUpErr) {
+          toast.error("Registration failed. Please complete the form and try again.");
+        } else {
+          const { error: signInErr } = await supabase.auth.signInWithPassword({ email, password });
+          if (signInErr) {
+            toast.error("Login required. Check your email or credentials.");
+          } else {
+            toast.success("Payment and registration complete. Starting your test...");
+            navigate("/test");
+            return;
+          }
+        }
+      } finally {
+        setIsProcessing(false);
+      }
+    } else {
+      toast.success("Payment successful! Please finish registration to continue.");
+    }
   };
 
   const handlePaymentClose = () => {
