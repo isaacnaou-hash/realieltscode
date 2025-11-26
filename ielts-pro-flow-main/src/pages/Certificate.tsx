@@ -137,28 +137,17 @@ const Certificate = () => {
     // We'll use html2canvas for better rendering
     import('html2canvas').then(({ default: html2canvas }) => {
       html2canvas(certificateRef.current!, {
-        scale: 3,
+        scale: 2,
         backgroundColor: '#ffffff',
         logging: false,
       }).then((canvas) => {
         const imgData = canvas.toDataURL('image/png');
         const pdf = new jsPDF({
           orientation: 'landscape',
-          unit: 'mm',
-          format: 'a4',
+          unit: 'px',
+          format: [canvas.width, canvas.height],
         });
-
-        const pageWidth = pdf.internal.pageSize.getWidth();
-        const pageHeight = pdf.internal.pageSize.getHeight();
-        let imgWidth = pageWidth;
-        let imgHeight = (canvas.height * imgWidth) / canvas.width;
-        if (imgHeight > pageHeight) {
-          imgHeight = pageHeight;
-          imgWidth = (canvas.width * imgHeight) / canvas.height;
-        }
-        const x = (pageWidth - imgWidth) / 2;
-        const y = (pageHeight - imgHeight) / 2;
-        pdf.addImage(imgData, 'PNG', x, y, imgWidth, imgHeight);
+        pdf.addImage(imgData, 'PNG', 0, 0, canvas.width, canvas.height);
         pdf.save(`IELTS_Pro_Certificate_${certificateData.candidateName.replace(/\s+/g, '_')}.pdf`);
         toast.success("Certificate downloaded successfully!");
       });
