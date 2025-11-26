@@ -239,104 +239,100 @@ const Certificate = () => {
         </div>
       </header>
 
-      <main className="max-w-none mx-auto px-6 sm:px-8 lg:px-10 py-8 overflow-auto">
+      <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Certificate Container */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
           ref={certificateRef}
-          className="shadow-2xl relative overflow-hidden"
-          style={{ width: '3508px', height: '2480px', backgroundColor: '#fffaf0', fontFamily: 'Didot, Bodoni MT, Garamond, Georgia, serif', border: '8px double #c9a646', position: 'relative' }}
+          className="bg-white shadow-xl relative border-4 border-gray-200 rounded-xl overflow-hidden"
+          style={{ fontFamily: 'Georgia, Times New Roman, serif' }}
         >
-          <div style={{ position: 'absolute', inset: '80px', border: '3px solid #c9a646', borderRadius: '24px', backgroundColor: '#fffdf7' }}>
-            <div style={{ position: 'absolute', top: 0, left: 0, width: '120px', height: '120px', borderTop: '3px solid #c9a646', borderLeft: '3px solid #c9a646', borderTopLeftRadius: '24px' }} />
-            <div style={{ position: 'absolute', top: 0, right: 0, width: '120px', height: '120px', borderTop: '3px solid #c9a646', borderRight: '3px solid #c9a646', borderTopRightRadius: '24px' }} />
-            <div style={{ position: 'absolute', bottom: 0, left: 0, width: '120px', height: '120px', borderBottom: '3px solid #c9a646', borderLeft: '3px solid #c9a646', borderBottomLeftRadius: '24px' }} />
-            <div style={{ position: 'absolute', bottom: 0, right: 0, width: '120px', height: '120px', borderBottom: '3px solid #c9a646', borderRight: '3px solid #c9a646', borderBottomRightRadius: '24px' }} />
-
-            <div style={{ padding: '180px 160px 120px 160px', textAlign: 'center' }}>
-              <div style={{ fontSize: '600px', fontWeight: 800, color: '#0b2a4a', lineHeight: 1 }}>Certificate of English Proficiency</div>
-              <div style={{ marginTop: '40px', fontSize: '160px', fontWeight: 700, color: '#0b2a4a' }}>Certificate ID: {certificateData.certificateId || 'CERT-70200390'}</div>
+          <div className="m-6 rounded-lg border border-gray-300 bg-white">
+            <div className="px-8 pt-8 pb-4 text-center">
+              <div className="text-3xl md:text-4xl font-bold tracking-wide text-gray-900">Certificate of English Proficiency</div>
+              <div className="mt-1 text-xs md:text-sm text-gray-600">Certificate ID: {certificateData.certificateId || 'CERT-70200390'}</div>
             </div>
 
-            <div style={{ padding: '0 160px 80px 160px', textAlign: 'center' }}>
-              <div style={{ fontSize: '220px', color: '#0b2a4a' }}>This certifies that</div>
-              <div style={{ marginTop: '30px', fontSize: '480px', fontWeight: 800, color: '#6b1b1b', letterSpacing: '2px' }}>{certificateData.candidateName.toUpperCase()}</div>
-              <div style={{ marginTop: '50px', fontSize: '220px', color: '#0b2a4a' }}>This certifies that {certificateData.candidateName.replace(/\b\w/g, c => c.toUpperCase())} has successfully demonstrated English language proficiency at the {getCefrLabel(certificateData.cefr.overall)} ({certificateData.cefr.overall}) level in accordance with the Common European Framework of Reference for Languages (CEFR).</div>
-              <div style={{ marginTop: '40px', fontSize: '200px', color: '#0b2a4a' }}>Awarded on the {certificateData.testDate}.</div>
+            <div className="px-8 pb-8">
+              <div className="text-center text-gray-700 text-base md:text-lg">This certifies that</div>
+              <div className="mt-2 text-center text-3xl md:text-4xl font-extrabold text-gray-900">{certificateData.candidateName}</div>
+              <div className="mt-3 text-center text-gray-700 text-sm md:text-base">has demonstrated English language proficiency at the <span className="font-semibold">{getCefrLabel(certificateData.cefr.overall)} ({certificateData.cefr.overall})</span> level in accordance with the Common European Framework of Reference for Languages (CEFR).</div>
+              <div className="mt-2 text-center text-gray-700 text-sm md:text-base">Awarded on <span className="font-semibold">{certificateData.testDate}</span></div>
 
-            <div style={{ marginTop: '60px', padding: '0 300px' }}>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', fontSize: '210px', color: '#0b2a4a', fontWeight: 700 }}>
-                <div>Skill</div>
-                <div>CEFR Level</div>
-                <div>Score</div>
+              <div className="mt-6">
+                <div className="px-4">
+                  <div className="grid grid-cols-3 text-xs md:text-sm font-semibold text-gray-800">
+                    <div>Skill</div>
+                    <div>CEFR Level</div>
+                    <div>Score</div>
+                  </div>
+                  <div className="mt-2 space-y-2">
+                    <div className="grid grid-cols-3 items-center py-2 border-t border-gray-200">
+                      <div className="flex items-center gap-2 text-gray-900"><Headphones className="w-4 h-4" /> Listening</div>
+                      <div className="text-gray-800">{certificateData.cefr.listening} {getCefrLabel(certificateData.cefr.listening)}</div>
+                      <div className="text-gray-900 font-bold">{certificateData.scores.listening}</div>
+                    </div>
+                    <div className="grid grid-cols-3 items-center py-2 border-t border-gray-200">
+                      <div className="flex items-center gap-2 text-gray-900"><BookOpen className="w-4 h-4" /> Reading</div>
+                      <div className="text-gray-800">{certificateData.cefr.reading} {getCefrLabel(certificateData.cefr.reading)}</div>
+                      <div className="text-gray-900 font-bold">{certificateData.scores.reading}</div>
+                    </div>
+                    <div className="grid grid-cols-3 items-center py-2 border-t border-gray-200">
+                      <div className="flex items-center gap-2 text-gray-900"><Pencil className="w-4 h-4" /> Writing</div>
+                      <div className="text-gray-800">{certificateData.cefr.writing} {getCefrLabel(certificateData.cefr.writing)}</div>
+                      <div className="text-gray-900 font-bold">{certificateData.scores.writing}</div>
+                    </div>
+                    <div className="grid grid-cols-3 items-center py-2 border-t border-gray-200">
+                      <div className="flex items-center gap-2 text-gray-900"><MessageSquare className="w-4 h-4" /> Speaking</div>
+                      <div className="text-gray-800">{certificateData.cefr.speaking} {getCefrLabel(certificateData.cefr.speaking)}</div>
+                      <div className="text-gray-900 font-bold">{certificateData.scores.speaking}</div>
+                    </div>
+                    <div className="grid grid-cols-3 items-center py-2 border-t border-gray-300">
+                      <div className="text-gray-900 font-semibold">Overall Proficiency</div>
+                      <div className="text-gray-900 font-semibold">{certificateData.cefr.overall} {getCefrLabel(certificateData.cefr.overall)}</div>
+                      <div className="text-gray-900 font-bold">{certificateData.totalScore}</div>
+                    </div>
+                  </div>
+                </div>
               </div>
-              <div style={{ marginTop: '30px' }}>
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', alignItems: 'center', padding: '30px 0', borderTop: '2px solid #c9a646' }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '20px', color: '#0b2a4a' }}><Headphones width={120} height={120} /> Listening</div>
-                  <div style={{ color: '#0b2a4a' }}>{certificateData.cefr.listening} {getCefrLabel(certificateData.cefr.listening)}</div>
-                  <div style={{ color: '#6b1b1b', fontWeight: 800 }}>{certificateData.scores.listening}</div>
-                </div>
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', alignItems: 'center', padding: '30px 0', borderTop: '2px solid #c9a646' }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '20px', color: '#0b2a4a' }}><BookOpen width={120} height={120} /> Reading</div>
-                  <div style={{ color: '#0b2a4a' }}>{certificateData.cefr.reading} {getCefrLabel(certificateData.cefr.reading)}</div>
-                  <div style={{ color: '#6b1b1b', fontWeight: 800 }}>{certificateData.scores.reading}</div>
-                </div>
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', alignItems: 'center', padding: '30px 0', borderTop: '2px solid #c9a646' }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '20px', color: '#0b2a4a' }}><Pencil width={120} height={120} /> Writing</div>
-                  <div style={{ color: '#0b2a4a' }}>{certificateData.cefr.writing} {getCefrLabel(certificateData.cefr.writing)}</div>
-                  <div style={{ color: '#6b1b1b', fontWeight: 800 }}>{certificateData.scores.writing}</div>
-                </div>
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', alignItems: 'center', padding: '30px 0', borderTop: '2px solid #c9a646' }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '20px', color: '#0b2a4a' }}><MessageSquare width={120} height={120} /> Speaking</div>
-                  <div style={{ color: '#0b2a4a' }}>{certificateData.cefr.speaking} {getCefrLabel(certificateData.cefr.speaking)}</div>
-                  <div style={{ color: '#6b1b1b', fontWeight: 800 }}>{certificateData.scores.speaking}</div>
-                </div>
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', alignItems: 'center', padding: '30px 0', borderTop: '2px solid #c9a646' }}>
-                  <div style={{ color: '#0b2a4a', fontWeight: 800 }}>OVERALL</div>
-                  <div style={{ color: '#0b2a4a', fontWeight: 800 }}>{certificateData.cefr.overall} {getCefrLabel(certificateData.cefr.overall)}</div>
-                  <div style={{ color: '#6b1b1b', fontWeight: 800 }}>{certificateData.totalScore}</div>
-                </div>
-              </div>
-            </div>
 
-            <div style={{ marginTop: '80px', padding: '0 200px', display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', alignItems: 'end', gap: '60px' }}>
-              <div className="text-center">
-                <div style={{ width: '600px', height: '160px', margin: '0 auto' }}>
-                  <svg viewBox="0 0 300 80" className="w-full h-full">
-                    <path d="M10 50 C 60 20, 120 80, 170 40 C 190 20, 220 60, 290 30" fill="none" stroke="#1f2937" strokeWidth="2" strokeLinecap="round" />
-                    <path d="M30 60 C 80 40, 140 90, 210 50" fill="none" stroke="#1f2937" strokeWidth="1.5" strokeLinecap="round" />
-                  </svg>
+              <div className="mt-8 grid grid-cols-3 gap-6 items-end">
+                <div className="text-center">
+                  <div className="mx-auto w-48 h-12">
+                    <svg viewBox="0 0 300 80" className="w-full h-full">
+                      <path d="M10 50 C 60 20, 120 80, 170 40 C 190 20, 220 60, 290 30" fill="none" stroke="#1f2937" strokeWidth="2" strokeLinecap="round" />
+                      <path d="M30 60 C 80 40, 140 90, 210 50" fill="none" stroke="#1f2937" strokeWidth="1.5" strokeLinecap="round" />
+                    </svg>
+                  </div>
+                  <div className="mt-1 text-sm font-semibold text-gray-700">Dr. Amelia Hart</div>
+                  <div className="text-xs text-gray-500">Registrar</div>
                 </div>
-                <div style={{ marginTop: '10px', fontSize: '180px', fontWeight: 700, color: '#333' }}>Dr. Amelia Hart</div>
-                <div style={{ fontSize: '160px', color: '#555' }}>Registrar</div>
-              </div>
-              <div className="text-center">
-                <div style={{ position: 'relative', width: '320px', height: '320px', margin: '0 auto', borderRadius: '999px', background: 'linear-gradient(135deg, #0b2a4a, #6b1b1b)' }}>
-                  <svg viewBox="0 0 120 120" style={{ width: '260px', height: '260px', position: 'absolute', top: '30px', left: '30px' }}>
-                    <circle cx="60" cy="60" r="52" fill="none" stroke="rgba(255,255,255,0.75)" strokeWidth="4" />
-                    <circle cx="60" cy="60" r="42" fill="none" stroke="rgba(255,255,255,0.45)" strokeWidth="3" />
-                    <text x="60" y="56" textAnchor="middle" fontSize="28" fontWeight="800" fill="#fff">IELTS</text>
-                    <text x="60" y="82" textAnchor="middle" fontSize="18" fontWeight="700" fill="#f1f5f9">PRO</text>
-                  </svg>
+                <div className="text-center">
+                  <div className="relative inline-flex items-center justify-center w-20 h-20 rounded-full bg-gradient-to-br from-gray-800 to-gray-600">
+                    <svg viewBox="0 0 120 120" className="w-20 h-20">
+                      <circle cx="60" cy="60" r="52" fill="none" stroke="rgba(255,255,255,0.75)" strokeWidth="4" />
+                      <circle cx="60" cy="60" r="42" fill="none" stroke="rgba(255,255,255,0.45)" strokeWidth="3" />
+                      <text x="60" y="56" textAnchor="middle" fontSize="22" fontWeight="800" fill="#fff">IELTS</text>
+                      <text x="60" y="78" textAnchor="middle" fontSize="14" fontWeight="700" fill="#f1f5f9">PRO</text>
+                    </svg>
+                  </div>
+                  <div className="mt-2 text-sm font-semibold text-gray-700">Official Seal</div>
                 </div>
-                <div style={{ marginTop: '20px', fontSize: '180px', fontWeight: 700, color: '#333' }}>Official Seal</div>
-              </div>
-              <div className="text-center">
-                <div style={{ width: '600px', height: '160px', margin: '0 auto' }}>
-                  <svg viewBox="0 0 300 80" className="w-full h-full">
-                    <path d="M15 40 C 70 70, 130 10, 180 50 C 200 65, 235 35, 295 55" fill="none" stroke="#1f2937" strokeWidth="2" strokeLinecap="round" />
-                    <path d="M35 55 C 90 85, 150 25, 220 60" fill="none" stroke="#1f2937" strokeWidth="1.5" strokeLinecap="round" />
-                  </svg>
+                <div className="text-center">
+                  <div className="mx-auto w-48 h-12">
+                    <svg viewBox="0 0 300 80" className="w-full h-full">
+                      <path d="M15 40 C 70 70, 130 10, 180 50 C 200 65, 235 35, 295 55" fill="none" stroke="#1f2937" strokeWidth="2" strokeLinecap="round" />
+                      <path d="M35 55 C 90 85, 150 25, 220 60" fill="none" stroke="#1f2937" strokeWidth="1.5" strokeLinecap="round" />
+                    </svg>
+                  </div>
+                  <div className="mt-1 text-sm font-semibold text-gray-700">Mr. Daniel Brooks</div>
+                  <div className="text-xs text-gray-500">Verification Officer</div>
                 </div>
-                <div style={{ marginTop: '10px', fontSize: '180px', fontWeight: 700, color: '#333' }}>Mr. Daniel Brooks</div>
-                <div style={{ fontSize: '160px', color: '#555' }}>Verification Officer</div>
               </div>
-            </div>
 
-            <div style={{ marginTop: '60px', textAlign: 'center', fontSize: '150px', color: '#0b2a4a' }}>Verify at: {window.location.origin + '/verify'}</div>
-          
+              <div className="mt-6 text-center text-xs md:text-sm text-gray-600">Verify at: {window.location.origin + '/verify'}</div>
             </div>
           </div>
         </motion.div>
