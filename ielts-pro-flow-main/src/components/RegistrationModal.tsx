@@ -77,6 +77,10 @@ const RegistrationModal = ({ open, onClose }: RegistrationModalProps) => {
     } catch (err) {
       console.error("payment log failed");
     }
+    try {
+      localStorage.setItem('hasPaid', 'true');
+      localStorage.setItem('paymentReference', paystackConfig.reference);
+    } catch {}
     setPaymentSuccess(true);
     const fullName = watch("fullName");
     const phoneNumber = watch("phoneNumber");

@@ -73,11 +73,6 @@ const Dashboard = () => {
   useEffect(() => {
     const checkAuthAndLoadData = async () => {
       const { data: { session } } = await supabase.auth.getSession();
-      
-      if (!session) {
-        navigate("/auth");
-        return;
-      }
 
       // Fetch user profile
       const { data: profile } = await supabase
@@ -152,13 +147,24 @@ const Dashboard = () => {
         setTestAttempts(formattedAttempts);
       }
 
-      const { data: payments } = await supabase
-        .from("payment_transactions")
-        .select("id")
-        .eq("user_id", session.user.id)
-        .in("status", ["success", "verified"]) 
-        .limit(1);
-      setHasPaid(Boolean(payments && payments.length > 0));
+      try {
+        const localPaid = localStorage.getItem('hasPaid') === 'true';
+        if (localPaid) {
+          setHasPaid(true);
+        } else if (session?.user?.id) {
+          const { data: payments } = await supabase
+            .from("payment_transactions")
+            .select("id")
+            .eq("user_id", session.user.id)
+            .in("status", ["success", "verified"]) 
+            .limit(1);
+          setHasPaid(Boolean(payments && payments.length > 0));
+        } else {
+          setHasPaid(false);
+        }
+      } catch {
+        setHasPaid(localStorage.getItem('hasPaid') === 'true');
+      }
 
       setLoading(false);
     };

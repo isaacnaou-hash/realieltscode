@@ -53,6 +53,10 @@ const PaymentModal = ({ open, onClose, onSuccess }: PaymentModalProps) => {
     } catch (err) {
       console.error("payment log failed");
     }
+    try {
+      localStorage.setItem('hasPaid', 'true');
+      localStorage.setItem('paymentReference', paystackConfig.reference);
+    } catch {}
     toast.success("Payment successful! You can now start your test.");
     onSuccess();
   };
