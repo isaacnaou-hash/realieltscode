@@ -143,15 +143,22 @@ const Certificate = () => {
       }).then((canvas) => {
         const imgData = canvas.toDataURL('image/png');
         const pdf = new jsPDF({
-          orientation: 'portrait',
+          orientation: 'landscape',
           unit: 'mm',
           format: 'a4',
         });
 
-        const imgWidth = 210; // A4 width in mm
-        const imgHeight = (canvas.height * imgWidth) / canvas.width;
-        
-        pdf.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
+        const pageWidth = pdf.internal.pageSize.getWidth();
+        const pageHeight = pdf.internal.pageSize.getHeight();
+        let imgWidth = pageWidth;
+        let imgHeight = (canvas.height * imgWidth) / canvas.width;
+        if (imgHeight > pageHeight) {
+          imgHeight = pageHeight;
+          imgWidth = (canvas.width * imgHeight) / canvas.height;
+        }
+        const x = (pageWidth - imgWidth) / 2;
+        const y = (pageHeight - imgHeight) / 2;
+        pdf.addImage(imgData, 'PNG', x, y, imgWidth, imgHeight);
         pdf.save(`IELTS_Pro_Certificate_${certificateData.candidateName.replace(/\s+/g, '_')}.pdf`);
         toast.success("Certificate downloaded successfully!");
       });
@@ -245,7 +252,7 @@ const Certificate = () => {
         </div>
       </header>
 
-      <main className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Certificate Container */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -259,7 +266,7 @@ const Certificate = () => {
           <div className="m-8 md:m-10 rounded-xl border-2 border-blue-800/30 bg-white/95">
             <div className="h-2 bg-gradient-to-r from-blue-700 to-purple-700 rounded-t-xl" />
             <div className="px-10 pt-10 pb-6 text-center">
-              <div className="text-xl tracking-widest text-gray-600">International English Certification Board</div>
+              <div className="text-xl tracking-widest text-gray-600">IELTS Pro Certification</div>
               <div className="mt-2 text-4xl font-bold text-gray-900">Certificate of English Proficiency</div>
               <div className="mt-2 text-sm text-gray-500">Certificate ID: {certificateData.certificateId}</div>
             </div>
@@ -306,7 +313,15 @@ const Certificate = () => {
                 <div className="text-xs text-gray-500">Registrar</div>
               </div>
               <div className="text-center">
-                <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-gradient-to-br from-blue-700 to-purple-700 text-white font-bold">IECB</div>
+                <div className="relative inline-flex items-center justify-center w-20 h-20 rounded-full bg-gradient-to-br from-blue-700 to-purple-700">
+                  <svg viewBox="0 0 100 100" className="w-16 h-16">
+                    <circle cx="50" cy="50" r="44" fill="none" stroke="rgba(255,255,255,0.6)" strokeWidth="3" />
+                    <circle cx="50" cy="50" r="34" fill="none" stroke="rgba(255,255,255,0.35)" strokeWidth="2" />
+                    <text x="50" y="46" textAnchor="middle" fontSize="20" fontWeight="700" fill="#fff">IELTS</text>
+                    <text x="50" y="64" textAnchor="middle" fontSize="12" fontWeight="600" fill="#e5e7eb">PRO</text>
+                    <polygon points="50,20 53,26 60,27 55,31 56,37 50,34 44,37 45,31 40,27 47,26" fill="#fff" opacity="0.85" />
+                  </svg>
+                </div>
                 <div className="mt-2 text-sm font-semibold text-gray-700">Official Seal</div>
               </div>
               <div className="text-center">
