@@ -1,15 +1,22 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { Button } from "@mui/material";
 import { CheckCircle, School, TrendingUp, Award } from "lucide-react";
 import heroImage from "@/assets/hero-ielts.jpg";
 import shapesBg from "@/assets/shapes-bg.png";
 import RegistrationModal from "@/components/RegistrationModal";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const Index = () => {
   const [showRegistration, setShowRegistration] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
+
+  useEffect(() => {
+    if (location.state && (location.state as any).openRegistration) {
+      setShowRegistration(true);
+    }
+  }, [location.state]);
 
   const features = [
     {

@@ -55,8 +55,8 @@ const RegistrationModal = ({ open, onClose }: RegistrationModalProps) => {
     publicKey: import.meta.env.VITE_PAYSTACK_PUBLIC_KEY || "",
   };
 
-  const isLiveKey = paystackConfig.publicKey.startsWith("pk_live");
-  const canPay = Boolean(paystackConfig.publicKey) && isLiveKey;
+  const isAllowedKey = paystackConfig.publicKey.startsWith("pk_live") || paystackConfig.publicKey.startsWith("pk_test");
+  const canPay = Boolean(paystackConfig.publicKey) && isAllowedKey;
 
   const handlePaymentSuccess = async (reference: unknown) => {
     try {
@@ -223,7 +223,7 @@ const RegistrationModal = ({ open, onClose }: RegistrationModalProps) => {
                       className="w-full bg-gray-400 text-white py-3 px-6 rounded-lg font-semibold cursor-not-allowed"
                       disabled
                     >
-                      Payment unavailable. Configure live Paystack key.
+                      Payment unavailable. Configure Paystack key.
                     </button>
                   )}
                 </div>

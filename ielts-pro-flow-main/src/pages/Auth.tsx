@@ -69,9 +69,7 @@ const Auth = () => {
   };
 
   const onSignup = async (data: SignupFormData) => {
-    toast.info("Please use the registration form on the homepage to create an account with payment.");
-    setActiveTab(0);
-    signupForm.reset();
+    navigate("/", { state: { openRegistration: true } });
   };
 
   return (
