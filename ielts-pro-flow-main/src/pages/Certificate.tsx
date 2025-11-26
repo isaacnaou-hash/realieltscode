@@ -279,8 +279,8 @@ const Certificate = () => {
 
             <div className="px-10 pb-10">
               <div className="text-center text-blue-900/90 text-lg">This is to certify that</div>
-              <div className="mt-2 text-center text-5xl font-extrabold text-[#6b1b1b] tracking-wide">{(certificateData.candidateName || 'Felix Kigen').toUpperCase()}</div>
-              <div className="mt-4 text-center text-blue-900/90">This is to certify that {(certificateData.candidateName || 'Felix Kigen').replace(/\b\w/g, c => c.toUpperCase())} has demonstrated a level of English language proficiency commensurate with the <span className="font-semibold">{getCefrLabel(certificateData.cefr.overall)} ({certificateData.cefr.overall})</span> level of the Common European Framework of Reference for Languages (CEFR).</div>
+              <div className="mt-2 text-center text-5xl font-extrabold text-[#6b1b1b] tracking-wide">{certificateData.candidateName.toUpperCase()}</div>
+              <div className="mt-4 text-center text-blue-900/90">This is to certify that {certificateData.candidateName.replace(/\b\w/g, c => c.toUpperCase())} has demonstrated a level of English language proficiency commensurate with the <span className="font-semibold">{getCefrLabel(certificateData.cefr.overall)} ({certificateData.cefr.overall})</span> level of the Common European Framework of Reference for Languages (CEFR).</div>
               <div className="mt-2 text-center text-blue-900/90">Awarded this {formatAwardDate(certificateData.testDate)}</div>
 
             <div className="mt-8">
