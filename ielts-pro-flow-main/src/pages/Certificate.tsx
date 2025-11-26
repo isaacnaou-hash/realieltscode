@@ -143,7 +143,7 @@ const Certificate = () => {
     // We'll use html2canvas for better rendering
     import('html2canvas').then(({ default: html2canvas }) => {
       html2canvas(certificateRef.current!, {
-        scale: 2,
+        scale: 3,
         backgroundColor: '#ffffff',
         logging: false,
       }).then((canvas) => {
@@ -258,28 +258,43 @@ const Certificate = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
           ref={certificateRef}
-          className="bg-white rounded-lg shadow-xl overflow-hidden"
+          className="bg-white rounded-lg shadow-xl overflow-hidden relative"
         >
+          <div className="absolute inset-0 pointer-events-none" style={{ backgroundImage: 'radial-gradient(rgba(59,130,246,0.06) 1px, transparent 1px)', backgroundSize: '20px 20px' }} />
           {/* Certificate Header */}
-          <div className="bg-gradient-to-r from-blue-600 to-purple-600 py-6 px-8 text-center">
-            <div className="flex items-center justify-center gap-3 mb-2">
-              <div className="text-4xl font-bold text-white">IELTS Pro</div>
+          <div className="bg-gradient-to-r from-blue-700 to-purple-700 py-6 px-8">
+            <div className="flex items-center justify-between">
+              <div className="text-4xl font-extrabold text-white tracking-wide">IELTS Pro</div>
+              <div className="text-white/90 text-sm font-semibold">Certificate ID: {certificateData.certificateId}</div>
             </div>
-            <div className="inline-block bg-purple-600 text-white px-4 py-1 rounded-full text-sm font-semibold">
-              English Certificate
-            </div>
+            <div className="mt-3 inline-block bg-white/15 backdrop-blur px-4 py-1 rounded-full text-sm font-semibold text-white">Official English Proficiency Certificate</div>
           </div>
 
           {/* Certificate Body */}
           <div className="px-8 py-10">
-            {/* Candidate Name */}
-            <h1 className="text-5xl font-bold text-center text-gray-900 mb-4">
-              {certificateData.candidateName}
-            </h1>
-
-            <p className="text-center text-gray-600 mb-8">
-              has successfully completed the IELTS Pro Certificate and has earned level:
-            </p>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+              <div className="md:col-span-2">
+                <h1 className="text-5xl font-extrabold text-center md:text-left text-gray-900 mb-2">
+                  {certificateData.candidateName}
+                </h1>
+                <p className="text-center md:text-left text-gray-600">
+                  Awarded on <span className="font-semibold">{certificateData.testDate}</span>
+                </p>
+              </div>
+              <div className="flex items-center justify-center md:justify-end">
+                <div className="text-center">
+                  <div className="text-xs uppercase tracking-widest text-gray-500">Verification</div>
+                  <div className="mt-2 inline-block border rounded-lg p-2">
+                    <img
+                      src={`https://api.qrserver.com/v1/create-qr-code/?size=120x120&data=${encodeURIComponent(window.location.origin + '/certificate/' + id)}`}
+                      alt="QR"
+                      className="w-24 h-24"
+                    />
+                  </div>
+                  <div className="mt-2 text-xs text-gray-500">{window.location.origin}/certificate/{id}</div>
+                </div>
+              </div>
+            </div>
 
             {/* Score Circle */}
             <div className="flex justify-center mb-8">
@@ -324,11 +339,8 @@ const Certificate = () => {
               </div>
             </div>
 
-            {/* Award Date */}
-            <div className="text-center mb-12">
-              <p className="text-gray-600">
-                <span className="font-semibold">Awarded on:</span> {certificateData.testDate}
-              </p>
+            <div className="text-center mb-10">
+              <div className="inline-block px-6 py-2 rounded-full bg-gray-100 text-gray-700 font-semibold">Overall: {certificateData.totalScore}/100 • {certificateData.cefr.overall} {getCefrLabel(certificateData.cefr.overall)}</div>
             </div>
 
             {/* Divider */}
@@ -405,9 +417,19 @@ const Certificate = () => {
               <ScoreCircle score={certificateData.scores.speaking} label="Speaking" cefr={certificateData.cefr.speaking} />
             </div>
 
-            {/* Certificate URL */}
-            <div className="text-center text-sm text-gray-500 pt-4 border-t border-gray-200">
-              {window.location.origin}/certificate/{id}
+            <div className="grid grid-cols-3 items-end mt-8 border-t border-gray-200 pt-6">
+              <div className="text-center">
+                <div className="h-10 border-b border-gray-400" />
+                <div className="mt-2 text-xs text-gray-500">Authorized Signature</div>
+              </div>
+              <div className="text-center">
+                <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-gradient-to-br from-blue-600 to-purple-600 text-white font-bold">SEAL</div>
+                <div className="mt-2 text-xs text-gray-500">IELTS Pro</div>
+              </div>
+              <div className="text-center">
+                <div className="h-10 border-b border-gray-400" />
+                <div className="mt-2 text-xs text-gray-500">Verification Officer</div>
+              </div>
             </div>
           </div>
         </motion.div>
