@@ -137,7 +137,7 @@ const Certificate = () => {
     // We'll use html2canvas for better rendering
     import('html2canvas').then(({ default: html2canvas }) => {
       html2canvas(certificateRef.current!, {
-        scale: 1,
+        scale: 3,
         backgroundColor: '#ffffff',
         logging: false,
         useCORS: true,
@@ -239,7 +239,7 @@ const Certificate = () => {
         </div>
       </header>
 
-      <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <main className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Certificate Container */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
