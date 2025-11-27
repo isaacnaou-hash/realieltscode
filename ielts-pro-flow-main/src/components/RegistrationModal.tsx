@@ -80,40 +80,14 @@ const RegistrationModal = ({ open, onClose }: RegistrationModalProps) => {
     try {
       localStorage.setItem('hasPaid', 'true');
       localStorage.setItem('paymentReference', paystackConfig.reference);
+      localStorage.setItem('autoAuthenticated', 'true');
     } catch {}
     setPaymentSuccess(true);
-    const fullName = watch("fullName");
-    const phoneNumber = watch("phoneNumber");
-    const password = watch("password");
+    const fullName = watch("fullName") || '';
     try { if (fullName) localStorage.setItem('candidateName', fullName); } catch {}
-    if (email && password && fullName && phoneNumber) {
-      try {
-        setIsProcessing(true);
-        const { data: signUpRes, error: signUpErr } = await supabase.auth.signUp({
-          email,
-          password,
-          options: {
-            data: { fullName, phoneNumber },
-          },
-        });
-        if (signUpErr) {
-          toast.error("Registration failed. Please complete the form and try again.");
-        } else {
-          const { error: signInErr } = await supabase.auth.signInWithPassword({ email, password });
-          if (signInErr) {
-            toast.error("Login required. Check your email or credentials.");
-          } else {
-            toast.success("Payment and registration complete. Starting your test...");
-            navigate("/test");
-            return;
-          }
-        }
-      } finally {
-        setIsProcessing(false);
-      }
-    } else {
-      toast.success("Payment successful! Please finish registration to continue.");
-    }
+    toast.success("Payment successful. Starting your test...");
+    navigate("/test");
+    return;
   };
 
   const handlePaymentClose = () => {
