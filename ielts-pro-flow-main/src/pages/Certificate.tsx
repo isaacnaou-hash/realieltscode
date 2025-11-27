@@ -142,7 +142,7 @@ const Certificate = () => {
       node.style.width = '1280px';
       node.style.maxWidth = '1280px';
       html2canvas(node, {
-        scale: 4,
+        scale: 3,
         backgroundColor: '#ffffff',
         logging: false,
         useCORS: true,
@@ -151,8 +151,8 @@ const Certificate = () => {
         node.style.width = prevWidth;
         node.style.maxWidth = prevMaxWidth;
         const link = document.createElement('a');
-        link.href = canvas.toDataURL('image/png');
-        link.download = `IELTS_Pro_Certificate_${certificateData.candidateName.replace(/\s+/g, '_')}.png`;
+        link.href = canvas.toDataURL('image/jpeg', 0.92);
+        link.download = `IELTS_Pro_Certificate_${certificateData.candidateName.replace(/\s+/g, '_')}.jpg`;
         link.click();
         toast.success("Certificate downloaded successfully!");
       });
@@ -183,7 +183,7 @@ const Certificate = () => {
           format: 'a4',
         });
 
-        const imgData = canvas.toDataURL('image/png');
+        const imgData = canvas.toDataURL('image/jpeg', 0.92);
         const pageWidth = pdf.internal.pageSize.getWidth();
         const pageHeight = pdf.internal.pageSize.getHeight();
         const margin = 8;
@@ -200,7 +200,7 @@ const Certificate = () => {
 
         const x = (pageWidth - imgWidth) / 2;
         const y = (pageHeight - imgHeight) / 2;
-        pdf.addImage(imgData, 'PNG', x, y, imgWidth, imgHeight);
+        pdf.addImage(imgData, 'JPEG', x, y, imgWidth, imgHeight);
         pdf.save(`IELTS_Pro_Certificate_${certificateData.candidateName.replace(/\s+/g, '_')}.pdf`);
         toast.success("PDF downloaded successfully!");
       });
@@ -321,7 +321,7 @@ const Certificate = () => {
           className="bg-blue-50 shadow-xl relative border-4 border-blue-100 rounded-xl overflow-hidden"
           style={{ fontFamily: 'Georgia, Times New Roman, serif' }}
         >
-          <div className="m-6 rounded-lg border border-blue-100 bg-white">
+          <div className="m-6 rounded-lg border border-blue-100 bg-blue-50">
             <div className="px-8 pt-8 pb-4 text-center">
               <div className="text-3xl md:text-4xl font-bold tracking-wide text-gray-900">Certificate of English Proficiency</div>
               <div className="mt-1 text-xs md:text-sm text-gray-600">Certificate ID: {certificateData.certificateId || 'CERT-70200390'}</div>
