@@ -311,17 +311,17 @@ const Certificate = () => {
         </div>
       </header>
 
-      <main className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <main className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Certificate Container */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
           ref={certificateRef}
-          className="bg-white shadow-xl relative border-4 border-gray-200 rounded-xl overflow-hidden"
+          className="bg-blue-50 shadow-xl relative border-4 border-blue-100 rounded-xl overflow-hidden"
           style={{ fontFamily: 'Georgia, Times New Roman, serif' }}
         >
-          <div className="m-6 rounded-lg border border-gray-300 bg-white">
+          <div className="m-6 rounded-lg border border-blue-100 bg-white">
             <div className="px-8 pt-8 pb-4 text-center">
               <div className="text-3xl md:text-4xl font-bold tracking-wide text-gray-900">Certificate of English Proficiency</div>
               <div className="mt-1 text-xs md:text-sm text-gray-600">Certificate ID: {certificateData.certificateId || 'CERT-70200390'}</div>
