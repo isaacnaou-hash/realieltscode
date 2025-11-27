@@ -56,6 +56,9 @@ const PaymentModal = ({ open, onClose, onSuccess }: PaymentModalProps) => {
     try {
       localStorage.setItem('hasPaid', 'true');
       localStorage.setItem('paymentReference', paystackConfig.reference);
+      const nameFromEmail = (userEmail || '').split('@')[0] || 'Candidate';
+      localStorage.setItem('autoAuthenticated', 'true');
+      localStorage.setItem('candidateName', nameFromEmail.replace(/\W+/g, ' ').trim());
     } catch {}
     toast.success("Payment successful! You can now start your test.");
     onSuccess();

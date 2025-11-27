@@ -335,13 +335,11 @@ Yet, to demonize progress would be as naïve as to glorify it. The challenge of 
   const handleSubmit = async () => {
     try {
       setIsSubmitting(true);
-      toast.loading("Submitting and grading your test...");
       const elapsed = Math.floor((Date.now() - questionStartMs) / 1000);
       setQuestionTimes(prev => ({ ...prev, [currentQuestion.id]: Math.max(elapsed, 0) }));
 
       const valid = validateBeforeSubmit();
       if (!valid) {
-        toast.dismiss();
         setIsSubmitting(false);
         return;
       }
@@ -380,8 +378,7 @@ Yet, to demonize progress would be as naïve as to glorify it. The challenge of 
         body: { answers: organizedAnswers, audioUrl }
       });
 
-      toast.dismiss();
-      toast.success("Test submitted and graded successfully!");
+      
       try { localStorage.setItem('hasPaid', 'false'); } catch {}
 
       const fallbackScores = computeFallbackScores(answers);
@@ -423,8 +420,6 @@ Yet, to demonize progress would be as naïve as to glorify it. The challenge of 
       navigate(`/certificate/${attemptId}`, { state: { certificateData } });
     } catch (error) {
       console.error("Error submitting test:", error);
-      toast.dismiss();
-      toast.error("Failed to submit test. Please try again.");
       setIsSubmitting(false);
     }
   };
