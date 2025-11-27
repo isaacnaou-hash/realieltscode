@@ -136,13 +136,20 @@ const Certificate = () => {
 
     // We'll use html2canvas for better rendering
     import('html2canvas').then(({ default: html2canvas }) => {
-      html2canvas(certificateRef.current!, {
+      const node = certificateRef.current!;
+      const prevWidth = node.style.width;
+      const prevMaxWidth = node.style.maxWidth;
+      node.style.width = '1280px';
+      node.style.maxWidth = '1280px';
+      html2canvas(node, {
         scale: 4,
         backgroundColor: '#ffffff',
         logging: false,
         useCORS: true,
         scrollY: -window.scrollY,
       }).then((canvas) => {
+        node.style.width = prevWidth;
+        node.style.maxWidth = prevMaxWidth;
         const link = document.createElement('a');
         link.href = canvas.toDataURL('image/png');
         link.download = `IELTS_Pro_Certificate_${certificateData.candidateName.replace(/\s+/g, '_')}.png`;
@@ -156,16 +163,22 @@ const Certificate = () => {
     if (!certificateData || !certificateRef.current) return;
 
     import('html2canvas').then(({ default: html2canvas }) => {
-      html2canvas(certificateRef.current!, {
+      const node = certificateRef.current!;
+      const prevWidth = node.style.width;
+      const prevMaxWidth = node.style.maxWidth;
+      node.style.width = '1400px';
+      node.style.maxWidth = '1400px';
+      html2canvas(node, {
         scale: 3,
         backgroundColor: '#ffffff',
         logging: false,
         useCORS: true,
         scrollY: -window.scrollY,
       }).then((canvas) => {
-        const orientation = canvas.width > canvas.height ? 'landscape' : 'portrait';
+        node.style.width = prevWidth;
+        node.style.maxWidth = prevMaxWidth;
         const pdf = new jsPDF({
-          orientation,
+          orientation: 'landscape',
           unit: 'mm',
           format: 'a4',
         });
@@ -178,17 +191,11 @@ const Certificate = () => {
         const usableHeight = pageHeight - margin * 2;
 
         const canvasRatio = canvas.width / canvas.height;
-        const pageRatio = usableWidth / usableHeight;
-
         let imgWidth = usableWidth;
-        let imgHeight = usableHeight;
-
-        if (canvasRatio > pageRatio) {
-          imgHeight = usableWidth / canvasRatio;
-          imgWidth = usableWidth;
-        } else {
-          imgWidth = usableHeight * canvasRatio;
+        let imgHeight = imgWidth / canvasRatio;
+        if (imgHeight > usableHeight) {
           imgHeight = usableHeight;
+          imgWidth = imgHeight * canvasRatio;
         }
 
         const x = (pageWidth - imgWidth) / 2;
