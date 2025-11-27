@@ -163,8 +163,9 @@ const Certificate = () => {
         useCORS: true,
         scrollY: -window.scrollY,
       }).then((canvas) => {
+        const orientation = canvas.width > canvas.height ? 'landscape' : 'portrait';
         const pdf = new jsPDF({
-          orientation: 'landscape',
+          orientation,
           unit: 'mm',
           format: 'a4',
         });
@@ -176,13 +177,20 @@ const Certificate = () => {
         const usableWidth = pageWidth - margin * 2;
         const usableHeight = pageHeight - margin * 2;
 
+        const canvasRatio = canvas.width / canvas.height;
+        const pageRatio = usableWidth / usableHeight;
+
         let imgWidth = usableWidth;
-        let imgHeight = (canvas.height * imgWidth) / canvas.width;
-        if (imgHeight > usableHeight) {
-          const ratio = usableHeight / imgHeight;
+        let imgHeight = usableHeight;
+
+        if (canvasRatio > pageRatio) {
+          imgHeight = usableWidth / canvasRatio;
+          imgWidth = usableWidth;
+        } else {
+          imgWidth = usableHeight * canvasRatio;
           imgHeight = usableHeight;
-          imgWidth = imgWidth * ratio;
         }
+
         const x = (pageWidth - imgWidth) / 2;
         const y = (pageHeight - imgHeight) / 2;
         pdf.addImage(imgData, 'PNG', x, y, imgWidth, imgHeight);
